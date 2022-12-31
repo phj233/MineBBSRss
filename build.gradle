@@ -1,0 +1,23 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.7.10'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.10'
+    id 'net.mamoe.mirai-console' version '2.13.2'
+}
+
+group = 'info.phj233'
+version = '0.1.0'
+
+mirai{
+    jvmTarget = JavaVersion.VERSION_17
+}
+
+dependencies{
+    implementation("org.jsoup:jsoup:1.15.3")
+    implementation("com.rometools:rome:1.18.0")
+    testImplementation("junit:junit:4.13.2")
+}
+
+repositories {
+    maven { url 'https://maven.aliyun.com/repository/public' }
+    mavenCentral()
+}
