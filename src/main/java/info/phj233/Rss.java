@@ -15,6 +15,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @projectName: MineBBSRSS
@@ -51,8 +52,8 @@ public class Rss {
 
     public Boolean checkUpdate(Date time) throws IOException {
         Document doc = Jsoup.connect(link).get();
-        Elements reply = doc.getElementsByClass("block-body js-replyNewMessageContainer");
-        if (publishDate.after(time)&&reply.size()==0) {
+        Elements reply = doc.getElementsByClass("message   message--post   js-post js-inlineModContainer  ");
+        if (publishDate.after(time) && reply.size()==0) {
             String datetime = doc.getElementsByClass("u-dt").get(0).attr("data-date-string");
             String sdf = new SimpleDateFormat("yyyy/MM/dd").format(publishDate);
             return datetime.equals(sdf);
