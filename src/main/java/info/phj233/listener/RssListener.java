@@ -7,7 +7,6 @@ import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Group;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -26,13 +25,12 @@ public class RssListener {
     public void start(Bot bot) throws FeedException, IOException {
         Rss rss = new Rss(Config.INSTANCE.getUrl());
         Date[] flagDate = {rss.getPublishDate()};
-        String[] flagTitle = {rss.getTitle()};
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         Runnable runnable = () -> {
             try {
                 Rss rss1 = new Rss(Config.INSTANCE.getUrl());
-                if (rss1.checkUpdate(flagDate[0],flagTitle[0])) {
+                if (rss1.checkUpdate(flagDate[0])) {
                     flagDate[0] = rss1.getPublishDate();
-                    flagTitle[0] = rss1.getTitle();
                     //发送信息
                     for (Long group : Config.INSTANCE.getGroups()) {
                         Group sendGroup = Bot.getInstance(bot.getId()).getGroup(group);
@@ -41,11 +39,10 @@ public class RssListener {
                         }
                     }
                 }
-            } catch (IOException | FeedException | ParseException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         };
-        ScheduledExecutorService  service = Executors.newScheduledThreadPool(10);
         service.scheduleAtFixedRate(runnable, 0, 15, TimeUnit.SECONDS);
     }
 }

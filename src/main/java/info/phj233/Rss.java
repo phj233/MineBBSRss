@@ -7,6 +7,7 @@ import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 import info.phj233.util.ContentFormat;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -48,10 +49,11 @@ public class Rss {
         return new ContentFormat(this.title,this.author,this.content,this.category,this.publishDate,this.link).getContentsFormat();
     }
 
-    public Boolean checkUpdate(Date time,String title) throws IOException {
-        if (publishDate.after(time) && !this.title.equals(title)) {
-            String datetime = Jsoup.connect(link).get()
-                    .getElementsByClass("u-dt").get(0).attr("data-date-string");
+    public Boolean checkUpdate(Date time) throws IOException {
+        Document doc = Jsoup.connect(link).get();
+        Elements reply = doc.getElementsByClass("block-body js-replyNewMessageContainer");
+        if (publishDate.after(time)&&reply.size()==0) {
+            String datetime = doc.getElementsByClass("u-dt").get(0).attr("data-date-string");
             String sdf = new SimpleDateFormat("yyyy/MM/dd").format(publishDate);
             return datetime.equals(sdf);
         }return false;
@@ -59,8 +61,5 @@ public class Rss {
 
     public Date getPublishDate() {
         return publishDate;
-    }
-    public String getTitle() {
-        return title;
     }
 }
