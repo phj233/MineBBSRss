@@ -12,7 +12,7 @@ object PluginMain : KotlinPlugin(
     JvmPluginDescription(
         id = "info.phj233.minebbsrss",
         name = "MineBBSRSS",
-        version = "0.1.0"
+        version = "0.2.0"
     ) {
         author("phj233")
         info(
@@ -30,10 +30,10 @@ object PluginMain : KotlinPlugin(
                     logger.info { "插件未启用" }
                 }
                 RssListener.INSTANCE.start(e.bot)
+                logger.info { "MineBBSRSS loaded ！" }
             }catch (e:Exception){
                 logger.info { e.message }
             }
         }
-        logger.info { "MineBBSRSS loaded ！" }
     }
 }

@@ -1,5 +1,6 @@
 package info.phj233.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,7 +15,7 @@ import java.util.Date;
 public class ContentFormat {
     String title,author,contents, category,link;
     String publishDate;
-    public ContentFormat(String title, String author, String contents, String category, Date publishDate, String link) {
+    public ContentFormat(String title, String author, String contents, String category, Date publishDate, String link) throws ParseException {
         this.title = title;
         this.author = author;
         this.contents = contents;
@@ -23,7 +24,7 @@ public class ContentFormat {
         this.link = link;
     }
     public String extractContents() {
-        int i = Math.min(contents.length(), 50);
+        int i = Math.min(contents.length(), 60);
         return contents.substring(0, i);
     }
     public String getContentsFormat() {

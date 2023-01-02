@@ -11,6 +11,8 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -28,9 +30,12 @@ public class Rss {
 
     public Rss(String url) throws IOException, FeedException {
         feed = new SyndFeedInput().build(new XmlReader(new URL(url)));
-        publishDate = feed.getEntries().get(0).getPublishedDate();
+        SyndEntry entry = feed.getEntries().get(0);
+        publishDate = entry.getPublishedDate();
+        title = entry.getTitle();
+        link = entry.getLink();
     }
-    public String getLastEntry() {
+    public String getLastEntry() throws ParseException {
         SyndEntry entry = feed.getEntries().get(0);
         this.title = entry.getTitle();
         this.link = entry.getLink();
@@ -43,10 +48,19 @@ public class Rss {
         return new ContentFormat(this.title,this.author,this.content,this.category,this.publishDate,this.link).getContentsFormat();
     }
 
-    public Boolean checkUpdate(Date time) {
-        return publishDate.after(time);
-    }
+    public Boolean checkUpdate(Date time,String title) throws IOException {
+        if (publishDate.after(time) && !this.title.equals(title)) {
+            String datetime = Jsoup.connect(link).get()
+                    .getElementsByClass("u-dt").get(0).attr("data-date-string");
+            String sdf = new SimpleDateFormat("yyyy/MM/dd").format(publishDate);
+            return datetime.equals(sdf);
+        }return false;
+        }
+
     public Date getPublishDate() {
         return publishDate;
+    }
+    public String getTitle() {
+        return title;
     }
 }
