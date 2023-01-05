@@ -1,6 +1,6 @@
 package info.phj233
 
-import info.phj233.listener.RssListener
+import info.phj233.quartz.MineBBSRSS
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
 import net.mamoe.mirai.event.GlobalEventChannel
@@ -12,7 +12,7 @@ object PluginMain : KotlinPlugin(
     JvmPluginDescription(
         id = "info.phj233.minebbsrss",
         name = "MineBBSRSS",
-        version = "0.2.0"
+        version = "0.3.0"
     ) {
         author("phj233")
         info(
@@ -29,7 +29,7 @@ object PluginMain : KotlinPlugin(
                 if (!Config.enable) {
                     logger.info { "插件未启用" }
                 }
-                RssListener.INSTANCE.start(e.bot)
+                MineBBSRSS.start(e.bot)
                 logger.info { "MineBBSRSS loaded ！" }
             }catch (e:Exception){
                 logger.info { e.message }

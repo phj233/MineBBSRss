@@ -49,16 +49,23 @@ public class Rss {
         return new ContentFormat(this.title,this.author,this.content,this.category,this.publishDate,this.link).getContentsFormat();
     }
 
-    public Boolean checkUpdate(Date time) throws IOException {
-        Document doc = Jsoup.connect(link).get();
-        Elements reply = doc.getElementsByClass("message   message--post   js-post js-inlineModContainer  ");
-        Elements statusUpdate = doc.getElementsByClass("message    message-threadStarterPost message--post   js-post js-inlineModContainer  ");
-        if (publishDate.after(time) && reply.size()==0 && statusUpdate.size()==0) {
-            String datetime = doc.getElementsByClass("u-dt").get(0).attr("data-date-string");
-            String sdf = new SimpleDateFormat("yyyy/MM/dd").format(publishDate);
-            return datetime.equals(sdf);
-        }return false;
+    public Boolean checkUpdate(Date time){
+        try {
+            if (publishDate.after(time)) {
+                Document doc = Jsoup.connect(link).get();
+                Elements reply = doc.getElementsByClass("message   message--post   js-post js-inlineModContainer  ");
+                Elements statusUpdate = doc.getElementsByClass("message    message-threadStarterPost message--post   js-post js-inlineModContainer  ");
+                if (reply.size()==0 && statusUpdate.size()==0) {
+                    String datetime = doc.getElementsByClass("u-dt").get(0).attr("data-date-string");
+                    String sdf = new SimpleDateFormat("yyyy/MM/dd").format(publishDate);
+                    return datetime.equals(sdf);
+                }
+            }
+            return false;
+        }catch (Exception e){
+            throw new RuntimeException(e);
         }
+    }
 
     public Date getPublishDate() {
         return publishDate;
