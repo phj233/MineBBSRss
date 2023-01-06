@@ -54,8 +54,9 @@ public class Rss {
             if (publishDate.after(time)) {
                 Document doc = Jsoup.connect(link).get();
                 Elements reply = doc.getElementsByClass("message   message--post   js-post js-inlineModContainer  ");
-                Elements statusUpdate = doc.getElementsByClass("message    message-threadStarterPost message--post   js-post js-inlineModContainer  ");
-                if (reply.size()==0 && statusUpdate.size()==0) {
+                Elements threadStarterPost = doc.getElementsByClass("message    message-threadStarterPost message--post   js-post js-inlineModContainer  ");
+                Elements staffPost = doc.getElementsByClass("message   message-staffPost  message--post   js-post js-inlineModContainer  ");
+                if (reply.size()==0 && threadStarterPost.size()==0 && staffPost.size()==0) {
                     String datetime = doc.getElementsByClass("u-dt").get(0).attr("data-date-string");
                     String sdf = new SimpleDateFormat("yyyy/MM/dd").format(publishDate);
                     return datetime.equals(sdf);
