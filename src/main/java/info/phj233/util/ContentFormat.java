@@ -1,11 +1,10 @@
 package info.phj233.util;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @projectName: MineBBSRSS
+ * @projectName: MineBBSRss
  * @package: util
  * @className: ContentFormat
  * @author: phj233
@@ -15,7 +14,7 @@ import java.util.Date;
 public class ContentFormat {
     String title,author,contents, category,link;
     String publishDate;
-    public ContentFormat(String title, String author, String contents, String category, Date publishDate, String link) throws ParseException {
+    public ContentFormat(String title, String author, String contents, String category, Date publishDate, String link) {
         this.title = title;
         this.author = author;
         this.contents = contents;
@@ -35,7 +34,6 @@ public class ContentFormat {
                 内容摘要: %s ...
                 分类: %s
                 发布时间: %s
-                链接: %s
-                """.formatted(title,author,extractContents(),category,publishDate,link);
+                链接: %s""".formatted(title,author,extractContents(),category,publishDate,link);
     }
 }
