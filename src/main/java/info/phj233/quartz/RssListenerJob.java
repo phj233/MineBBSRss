@@ -8,8 +8,8 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import static info.phj233.quartz.MineBBSRSS.bot;
-import static info.phj233.quartz.MineBBSRSS.flagDate;
+import static info.phj233.quartz.MineBBSRss.bot;
+import static info.phj233.quartz.MineBBSRss.flagDate;
 
 /**
  * @projectName: MineBBSRss

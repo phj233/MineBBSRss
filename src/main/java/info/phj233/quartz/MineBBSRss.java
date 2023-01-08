@@ -13,17 +13,17 @@ import java.util.Date;
 /**
  * @projectName: MineBBSRss
  * @package: info.phj233.quartz
- * @className: MineBBSRSS
+ * @className: MineBBSRss
  * @author: phj233
  * @date: 2023/1/5 19:11
  * @version: 1.0
  */
-public class MineBBSRSS {
+public class MineBBSRss {
     public static Bot bot;
     public static Date flagDate;
     public static void start(Bot bot) throws FeedException, IOException, SchedulerException {
-        MineBBSRSS.flagDate = new Rss(Config.INSTANCE.getUrl()).getPublishDate();
-        MineBBSRSS.bot = bot;
+        MineBBSRss.flagDate = new Rss(Config.INSTANCE.getUrl()).getPublishDate();
+        MineBBSRss.bot = bot;
         JobDetail jobDetail = JobBuilder.newJob(RssListenerJob.class)
                 .withIdentity("RssJob", "JobGroup")
                 .build();
