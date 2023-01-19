@@ -45,7 +45,7 @@ public class Rss {
         String contentValue = entry.getContents().get(0).getValue();
         Elements bbWrapper = Jsoup.parse(contentValue).getElementsByClass("bbWrapper");
         this.content = bbWrapper.text();
-        return new ContentFormat(this.title,this.author,this.content,this.category,this.publishDate,this.link).getContentsFormat();
+        return new ContentFormat(this.title,this.author,this.content,this.category,this.link).getContentsFormat();
     }
 
     public Boolean checkUpdate(Date time){
