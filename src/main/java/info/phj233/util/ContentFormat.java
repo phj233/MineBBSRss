@@ -24,10 +24,12 @@ public class ContentFormat {
     public String getContentsFormat() {
         return """
                 MineBBS有新内容啦!!!
-                标题: %s
-                作者: %s
-                内容摘要: %s ...
-                版块: %s
-                链接: %s""".formatted(title,author,extractContents(),category,link);
+                --------------------
+                ৹标题: %s
+                ৹作者: %s
+                ৹内容摘要: %s ...
+                ৹版块: %s
+                ৹链接-> %s
+                """.formatted(title,author,extractContents(),category,link);
     }
 }
