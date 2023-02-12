@@ -1,11 +1,11 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.7.10'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.10'
-    id 'net.mamoe.mirai-console' version '2.13.2'
+    id 'net.mamoe.mirai-console' version '2.14.0'
 }
 
 group = 'info.phj233'
-version = '0.1.0'
+version = '0.5.0'
 
 mirai{
     jvmTarget = JavaVersion.VERSION_17

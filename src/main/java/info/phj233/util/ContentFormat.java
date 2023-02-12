@@ -24,7 +24,7 @@ public class ContentFormat {
     public String getContentsFormat() {
         return """
                 MineBBS有新内容啦!!!
-                --------------------
+                -------------------------
                 ৹标题: %s
                 ৹作者: %s
                 ৹内容摘要: %s ...

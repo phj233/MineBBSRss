@@ -30,15 +30,11 @@ object PluginMain : KotlinPlugin(
         //注册指令
         CommandManager.registerCommand(MineBBSRssCommand)
         GlobalEventChannel.subscribeAlways<BotOnlineEvent> {e->
-            try {
                 if (!Config.enable) {
                     logger.info { "插件未启用" }
                 }
                 MineBBSRss.start(e.bot)
                 logger.info { "MineBBSRss loaded ！" }
-            }catch (e:Exception){
-                logger.info { e.message }
-            }
         }
     }
 }

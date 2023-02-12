@@ -37,6 +37,10 @@ public class MineBBSRss {
         Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
         scheduler.scheduleJob(jobDetail, trigger);
         scheduler.start();
+    }
 
+    public static void stop() throws SchedulerException {
+        Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+        scheduler.shutdown();
     }
 }

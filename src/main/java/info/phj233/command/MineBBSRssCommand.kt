@@ -2,8 +2,10 @@ package info.phj233.command
 
 import info.phj233.Config
 import info.phj233.PluginMain
+import info.phj233.quartz.MineBBSRss
 import net.mamoe.mirai.console.command.CommandSender
 import net.mamoe.mirai.console.command.CompositeCommand
+import net.mamoe.mirai.console.command.ConsoleCommandSender
 import net.mamoe.mirai.console.command.getGroupOrNull
 
 object MineBBSRssCommand : CompositeCommand(
@@ -20,6 +22,7 @@ object MineBBSRssCommand : CompositeCommand(
             |  /minebbsrss admin <add|remove> <qq> - 添加|移除管理员
             |  /minebbsrss group <add|remove> <group> - 添加|移除群
             |  /minebbsrss url <url> - 设置rss链接
+            |  /minebbsrss reload - 重载插件
             """.trimMargin()
         sender.sendMessage(helpText)
     }
@@ -100,6 +103,21 @@ object MineBBSRssCommand : CompositeCommand(
     suspend fun url(sender: CommandSender, url: String) {
         Config.url = url
         sender.sendMessage("rss链接:<$url>,设置成功")
+    }
+
+    @SubCommand
+    suspend fun reload(sender: CommandSender) {
+        if (sender is ConsoleCommandSender){
+            sender.sendMessage("请在聊天环境使用")
+            return
+        }
+        MineBBSRss.stop()
+        try {
+            PluginMain.onEnable()
+            sender.sendMessage("插件重载成功")
+        } catch (e: Exception) {
+            sender.sendMessage(e.message.toString())
+        }
     }
 
 
