@@ -1,5 +1,6 @@
 package info.phj233.quartz;
 
+import com.rometools.rome.io.FeedException;
 import info.phj233.Config;
 import info.phj233.Rss;
 import net.mamoe.mirai.Bot;
@@ -7,6 +8,10 @@ import net.mamoe.mirai.contact.Group;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 import static info.phj233.quartz.MineBBSRss.bot;
 import static info.phj233.quartz.MineBBSRss.flagDate;
@@ -23,6 +28,7 @@ public class RssListenerJob implements Job {
     /**
      * 通过静态变量导入 bot 和 flagDate
      */
+    private static final Logger logger = LoggerFactory.getLogger(RssListenerJob.class);
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
         try {
@@ -37,8 +43,8 @@ public class RssListenerJob implements Job {
                     }
                 }
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (IOException | FeedException e) {
+            logger.info(String.valueOf(e));
         }
     }
 }
