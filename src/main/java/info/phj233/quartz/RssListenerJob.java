@@ -7,7 +7,6 @@ import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Group;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,12 +16,10 @@ import static info.phj233.quartz.MineBBSRss.bot;
 import static info.phj233.quartz.MineBBSRss.flagDate;
 
 /**
- * @projectName: MineBBSRss
- * @package: info.phj233.quartz
- * @className: RssListenerJob
- * @author: phj233
- * @date: 2023/1/5 18:49
- * @version: 1.0
+ * RssListenerJob的定时任务
+ * @author phj233
+ * @since  2023/1/5 18:49
+ * @version 1.0
  */
 public class RssListenerJob implements Job {
     /**
@@ -30,21 +27,21 @@ public class RssListenerJob implements Job {
      */
     private static final Logger logger = LoggerFactory.getLogger(RssListenerJob.class);
     @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException {
+    public void execute(JobExecutionContext context) {
         try {
-            Rss rss1 = new Rss(Config.INSTANCE.getUrl());
-            if (rss1.checkUpdate(flagDate)) {
-                flagDate = rss1.getPublishDate();
+            Rss newRss = new Rss(Config.INSTANCE.getUrl());
+            if (newRss.checkUpdate(flagDate)) {
+                flagDate = newRss.getPublishDate();
                 //发送信息
                 for (Long group : Config.INSTANCE.getGroups()) {
                     Group sendGroup = Bot.getInstance(bot.getId()).getGroup(group);
                     if (sendGroup != null) {
-                        sendGroup.sendMessage(rss1.getLastEntry());
+                        sendGroup.sendMessage(newRss.getLastEntry());
                     }
                 }
             }
         } catch (IOException | FeedException e) {
-            logger.info(String.valueOf(e));
+            logger.info(e.getCause().toString());
         }
     }
 }

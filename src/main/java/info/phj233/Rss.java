@@ -16,12 +16,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @projectName: MineBBSRss
- * @package: com.phj233
- * @className: info.phj233.MineBBSRss. Rss
- * @author: phj233
- * @date: 2022/11/23 11:44
- * @version: 1.0
+ * MineBBS 的 RSS 订阅类
+ * @author phj233
+ * @since  2022/11/23 11:44
+ * @version 1.1
  */
 public class Rss {
     String title,author,content, category,link;
@@ -35,6 +33,9 @@ public class Rss {
         title = entry.getTitle();
         link = entry.getLink();
     }
+    /**
+     * 获取最新的帖子
+     */
     public String getLastEntry() {
         SyndEntry entry = feed.getEntries().get(0);
         this.title = entry.getTitle();
@@ -48,6 +49,10 @@ public class Rss {
         return new ContentFormat(this.title,this.author,this.content,this.category,this.link).getContentsFormat();
     }
 
+    /**
+     * 检查是否有更新
+     * @param time 上次检查时间
+     */
     public Boolean checkUpdate(Date time){
         try {
             if (publishDate.after(time)) {
