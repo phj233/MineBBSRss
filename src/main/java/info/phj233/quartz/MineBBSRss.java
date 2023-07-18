@@ -1,35 +1,29 @@
 package info.phj233.quartz;
 
-import com.rometools.rome.io.FeedException;
 import info.phj233.Config;
 import info.phj233.Rss;
 import net.mamoe.mirai.Bot;
+import net.mamoe.mirai.utils.MiraiLogger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 import java.util.Date;
 
 import static java.lang.Thread.sleep;
 
 
 /**
- * @projectName: MineBBSRss
- * @package: info.phj233.quartz
- * @className: MineBBSRss
- * @author: phj233
- * @date: 2023/1/5 19:11
- * @version: 1.0
+ * MineBBSRss的定时任务
+ * @author phj233
+ * @since  2023/1/5 19:11
+ * @version 1.0
  */
 public class MineBBSRss {
     public static Bot bot;
     public static Date flagDate;
     public static Scheduler scheduler;
-    private static final Logger logger = LoggerFactory.getLogger(MineBBSRss.class);
 
-    public static void start(Bot bot) throws FeedException, SchedulerException, InterruptedException, IOException {
+    public static void start(Bot bot) throws SchedulerException, InterruptedException {
+        MiraiLogger logger = bot.getLogger();
         try {
             MineBBSRss.flagDate = new Rss(Config.INSTANCE.getUrl()).getPublishDate();
             MineBBSRss.bot = bot;
@@ -46,8 +40,9 @@ public class MineBBSRss {
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.scheduleJob(jobDetail, trigger);
             scheduler.start();
-        }catch (IOException e){
-            logger.info(String.valueOf(e));
+        }catch (Exception e){
+            logger.error(e.getCause());
+            scheduler.shutdown();
             sleep(5000 );
             start(bot);
 

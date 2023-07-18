@@ -2,29 +2,40 @@ package info.phj233.command
 
 import info.phj233.Config
 import info.phj233.PluginMain
+import info.phj233.PluginMain.botInstance
 import info.phj233.quartz.MineBBSRss
 import net.mamoe.mirai.console.command.CommandSender
 import net.mamoe.mirai.console.command.CompositeCommand
 import net.mamoe.mirai.console.command.ConsoleCommandSender
 import net.mamoe.mirai.console.command.getGroupOrNull
+import net.mamoe.mirai.message.data.ForwardMessageBuilder
+import net.mamoe.mirai.message.data.PlainText
 
+/**
+ * MineBBSRss 指令
+ */
 object MineBBSRssCommand : CompositeCommand(
     owner = PluginMain,
     "minebbsrss",
     description = "MineBBSRss 指令"
 ) {
     @SubCommand
-    suspend fun list(sender: CommandSender) {
+    suspend fun help(sender: CommandSender) {
         val helpText = """
             |MineBBSRss 指令列表:
-            |  /minebbsrss list - 查看指令列表
+            |  /minebbsrss help - 查看帮助
             |  /minebbsrss enable <true|false> - 启用|关闭插件
             |  /minebbsrss admin <add|remove> <qq> - 添加|移除管理员
-            |  /minebbsrss group <add|remove> <group> - 添加|移除群
+            |  /minebbsrss group <add|remove|list> <group> - 添加|移除群
             |  /minebbsrss url <url> - 设置rss链接
             |  /minebbsrss reload - 重载插件
             """.trimMargin()
-        sender.sendMessage(helpText)
+        sender.user?.let {
+            val forwardMessage = ForwardMessageBuilder(it).add(
+                botInstance.id, botInstance.nick, PlainText(helpText)
+            ).build()
+            sender.sendMessage(forwardMessage)
+        }
     }
 
     @SubCommand
@@ -95,7 +106,10 @@ object MineBBSRssCommand : CompositeCommand(
                     sender.sendMessage("群<${group.id}>不在允许列表中")
                 }
             }
-            else -> sender.sendMessage("未知操作, 请使用 /minebbsrss group <add|remove>")
+            "list" -> {
+                sender.sendMessage("允许的群列表: ${Config.groups}")
+            }
+            else -> sender.sendMessage("未知操作, 请使用 /minebbsrss group <add|remove|list>")
         }
     }
 
