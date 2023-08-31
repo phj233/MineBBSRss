@@ -35,11 +35,12 @@ object PluginMain : KotlinPlugin(
         GlobalEventChannel.subscribeAlways<BotOnlineEvent> {e->
                 if (!Config.enable) {
                     logger.info { "插件未启用" }
+                }else {
+                    botInstance = e.bot
+                    //启动定时任务
+                    MineBBSRss.start(e.bot)
+                    logger.info { "MineBBSRss loaded ！" }
                 }
-                botInstance = e.bot
-                //启动定时任务
-                MineBBSRss.start(e.bot)
-                logger.info { "MineBBSRss loaded ！" }
         }
     }
 }

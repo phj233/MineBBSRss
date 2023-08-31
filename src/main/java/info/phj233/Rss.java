@@ -22,7 +22,7 @@ import java.util.Date;
  * @version 1.1
  */
 public class Rss {
-    String title,author,content, category,link;
+    String title,author,content,category,link;
     Date publishDate;
     SyndFeed feed;
 

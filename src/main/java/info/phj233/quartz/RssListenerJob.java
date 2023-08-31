@@ -41,7 +41,7 @@ public class RssListenerJob implements Job {
                 }
             }
         } catch (IOException | FeedException e) {
-            logger.info(e.getCause().toString());
+            logger.info(e.getMessage());
         }
     }
 }

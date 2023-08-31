@@ -41,7 +41,7 @@ public class MineBBSRss {
             scheduler.scheduleJob(jobDetail, trigger);
             scheduler.start();
         }catch (Exception e){
-            logger.error(e.getCause());
+            logger.error(e.getMessage());
             scheduler.shutdown();
             sleep(5000 );
             start(bot);
