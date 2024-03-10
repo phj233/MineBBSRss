@@ -127,7 +127,7 @@ object MineBBSRssCommand : CompositeCommand(
         }
         MineBBSRss.stop()
         try {
-            PluginMain.onEnable()
+            MineBBSRss.start(botInstance)
             sender.sendMessage("插件重载成功")
         } catch (e: Exception) {
             sender.sendMessage(e.message.toString())

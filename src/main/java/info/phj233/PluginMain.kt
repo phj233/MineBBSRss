@@ -14,7 +14,7 @@ object PluginMain : KotlinPlugin(
     JvmPluginDescription(
         id = "info.phj233.minebbsrss",
         name = "MineBBSRss",
-        version = "0.9.0"
+        version = "0.11.0"
     ) {
         author("phj233")
         info(

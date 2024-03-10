@@ -58,11 +58,10 @@ public class Rss {
             if (publishDate.after(time)) {
                 Document doc = Jsoup.connect(link).get();
                 //过滤有回复的帖子，以免多次发送
-                Elements reply = doc.getElementsByClass("message   message--post   js-post js-inlineModContainer  ");
-                Elements threadStarterPost = doc.getElementsByClass("message    message-threadStarterPost message--post   js-post js-inlineModContainer  ");
-                Elements staffPost = doc.getElementsByClass("message   message-staffPost  message--post   js-post js-inlineModContainer  ");
-                if (reply.size()==0 && threadStarterPost.size()==0 && staffPost.size()==0) {
-                    //判断是否是最新主题
+                Elements messageContent = doc.getElementsByClass("message-main uix_messageContent js-quickEditTarget");
+                Elements severContent = doc.getElementsByClass("message-main js-quickEditTarget");
+                //判断是否是最新主题
+                if (messageContent.size() == 1 || severContent.size() == 1 ) {
                     String datetime = doc.getElementsByClass("u-dt").get(0).attr("data-date-string");
                     String sdf = new SimpleDateFormat("yyyy/MM/dd").format(publishDate);
                     return datetime.equals(sdf);
