@@ -2,7 +2,7 @@ name: "build plugin"
 on:
   push:
     paths:
-      - 'build.gradle.kts'
+      - 'build.gradle'
       - '.github/workflows/build.yaml'
 jobs:
   build:
