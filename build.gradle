@@ -5,15 +5,15 @@ plugins {
 }
 
 group = 'info.phj233'
-version = '0.11.0'
+version = '0.12.0'
 
 mirai{
     jvmTarget = JavaVersion.VERSION_17
 }
 
 dependencies{
-    implementation("org.jsoup:jsoup:1.15.3")
-    implementation("com.rometools:rome:1.18.0")
+    implementation('org.jsoup:jsoup:1.17.2')
+    implementation('com.rometools:rome:2.1.0')
     implementation("org.quartz-scheduler:quartz:2.3.2")
     testImplementation("junit:junit:4.13.2")
 }

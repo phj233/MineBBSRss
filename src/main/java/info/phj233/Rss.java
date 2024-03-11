@@ -9,7 +9,6 @@ import info.phj233.util.ContentFormat;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -27,12 +26,13 @@ public class Rss {
     SyndFeed feed;
 
     public Rss(String url) throws IOException, FeedException {
-        feed = new SyndFeedInput().build(new XmlReader(new URL(url)));
+        feed = new SyndFeedInput().build(new XmlReader(new URL(url).openConnection().getInputStream()));
         SyndEntry entry = feed.getEntries().get(0);
         publishDate = entry.getPublishedDate();
         title = entry.getTitle();
         link = entry.getLink();
     }
+
     /**
      * 获取最新的帖子
      */
@@ -58,10 +58,9 @@ public class Rss {
             if (publishDate.after(time)) {
                 Document doc = Jsoup.connect(link).get();
                 //过滤有回复的帖子，以免多次发送
-                Elements messageContent = doc.getElementsByClass("message-main uix_messageContent js-quickEditTarget");
-                Elements severContent = doc.getElementsByClass("message-main js-quickEditTarget");
+                Elements messageContent = doc.getElementsByClass("message-main");
                 //判断是否是最新主题
-                if (messageContent.size() == 1 || severContent.size() == 1 ) {
+                if (messageContent.size() == 1) {
                     String datetime = doc.getElementsByClass("u-dt").get(0).attr("data-date-string");
                     String sdf = new SimpleDateFormat("yyyy/MM/dd").format(publishDate);
                     return datetime.equals(sdf);
